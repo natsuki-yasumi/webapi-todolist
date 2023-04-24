@@ -1,0 +1,19 @@
+{
+  "name": "web-api-todolist",
+  "version": "1.0.0",
+  "description": "Aplikasi ToDoList Sederhana",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app"
+  },
+  "author": "Feri Hermawan",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "moment": "^2.29.4",
+    "mongodb": "^5.3.0",
+    "mongoose": "^7.0.4"
+  }
+}
