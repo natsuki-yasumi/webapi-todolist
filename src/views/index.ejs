@@ -19,7 +19,7 @@
             <div class="navbar-nav">
               <a class="nav-link text-white" aria-current="page" href="#">Home</a>
               <a class="nav-link text-white" aria-current="page" href="#">Contact</a>
-              <a class="nav-link text-white" aria-current="page" href="https://github.com/natsuki-yasumi">Github</a>
+              <a class="nav-link text-white" aria-current="page" href="https://github.com/natsuki-yasumi/webapi-todolist">Github</a>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@
             <tr>
               <td><%= task.judul; %></td>
               <td><a href="#" class="btn btn-warning">Details</a></td>
-              <td><button type="button" class="btn btn-success">Selesai</button></td>
+              <td><a href="/task-completed/<%=task._id;%>" class="btn btn-success">Selesai</a></td>
           </tr>
           <% }) %>
         </tbody>
