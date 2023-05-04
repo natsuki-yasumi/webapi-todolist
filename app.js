@@ -3,14 +3,10 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
-const moment = require("moment");
 
-/* Set view engine ke EJS */
-app.set("views", path.join(__dirname, "src/views")); //set lokasi views ejs
-app.set("view engine", "ejs");
-
+/* Set Body-Parser */
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
 
 /* Koneksi ke Database */
 require("./src/database/db.js");
@@ -23,7 +19,9 @@ const todoListModel = require("./src/database/model/taskModel.js");
 //Melihat Data
 app.get("/task-view",(req,res)=>{
     const user = todoListModel.find().then((hasil)=>{
-        res.send(hasil);
+        res.json({
+            massage: "TEst"
+        });
     });
 
 });
@@ -37,17 +35,13 @@ app.post("/task-add",(req, res)=>{
         deskripsi: dataInputPost.deskripsi,
         waktu: dataInputPost.waktu
     }).save().then((result)=> {
-        res.redirect(301, '/');
+        //res.redirect(301, '/');
+        res.json({
+            message: "Data Berhasil di simpan"
+        })
     });
-    //     task.save().then((hasil)=> {
-            // const dbDate = hasil.waktu;
-            // const momentDate = moment(dbDate,'YYYY-MM-DD HH:mm:ss');
-            // const formattedDate = momentDate.format('LLL');
-            // hasil.waktu = formattedDate;
-
-    //         res.send(hasil);
-    // });
-    })
+    //res.json(dataInputPost);
+});
 
 //Mencari data berdasarkan idObjek
 app.get("/task-find/:objectId", (req, res)=>{
@@ -82,7 +76,7 @@ app.get("/task-completed/:objId",(req, res)=>{
                 message: "Bad Request"
             });
     });
-})
+});
 
 //Menghapus Data
 app.get('/task-delete/:objId',(req, res)=>{
@@ -99,16 +93,25 @@ app.get('/task-delete/:objId',(req, res)=>{
     });
 });
 
-//Halaman Home
-app.get('/',(req,res)=> {
-    const dataTask = todoListModel.find();
+app.patch('/task-update/:objId', (req, res)=>{
+    const data = {
+        title: req.body.title,
+        deskripsi: req.body.deskripsi,
+        waktu: req.body.waktu
+    }
 
-    dataTask.then((result)=>{
-        console.log(result.title);
-        res.render("index",{
-            dataTask: result
+    todoListModel.updateOne({_id: req.params.objId}, data)
+    .then(()=>{
+        res.json({
+            message: "Berhasil di update"
         });
     });
+
+});
+
+//Halaman Home
+app.get('/',(req,res)=> {
+    res.send("Selamat datang di web api-todolist");
 });
 
 
